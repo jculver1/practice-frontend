@@ -17,8 +17,8 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-      console.log("API_URL",process.env.API_URL)    
-    fetch("http://localhost:3001" + "/shares")
+    console.log("REACT_APP_API_URL", process.env.REACT_APP_API_URL)
+    fetch(process.env.REACT_APP_API_URL + "/shares")
     .then(results => {
       console.log("results",results)
       return results.json();
