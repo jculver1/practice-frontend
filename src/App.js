@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ShareList from './components/ShareList'
+import AddShareForm from './components/AddShareForm'
 import logo from './logo.svg';
 import './App.css';
 
@@ -17,14 +18,28 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    console.log("REACT_APP_API_URL", process.env.REACT_APP_API_URL)
     fetch(process.env.REACT_APP_API_URL + "shares")
-    .then(results => {
-      console.log("results",results)
-      return results.json();
-    }).then(data => {
+    .then(results => results.json())
+    .then(data => {
       this.setState({
         shares: data
+      })
+    })
+  }
+
+  addShare = (share) => {
+    let fakeShare = {userId: 2, ...share}
+    fetch(process.env.REACT_APP_API_URL + "shares", {
+      method: 'POST',
+      body: JSON.stringify(fakeShare),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    }).then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => {
+      this.setState({
+          shares: this.state.shares.concat(share)
       })
     })
   }
@@ -33,6 +48,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <ShareList shares={this.state.shares}></ShareList>
+        <AddShareForm addShare={this.addShare}></AddShareForm>
       </div>
     );
   }
