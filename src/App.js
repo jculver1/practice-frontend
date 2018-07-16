@@ -4,6 +4,8 @@ import AddShareForm from './components/AddShareForm'
 import logo from './logo.svg';
 import './App.css';
 
+const REACT_APP_API_URL = "http://localhost:3001/"
+
 export default class App extends Component {
 
   constructor(props) {
@@ -18,7 +20,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    fetch(process.env.REACT_APP_API_URL + "shares")
+    fetch(REACT_APP_API_URL + "shares")
     .then(results => results.json())
     .then(data => {
       this.setState({
@@ -29,7 +31,7 @@ export default class App extends Component {
 
   addShare = (share) => {
     let fakeShare = {userId: 2, ...share}
-    fetch(process.env.REACT_APP_API_URL + "shares", {
+    fetch(REACT_APP_API_URL + "shares", {
       method: 'POST',
       body: JSON.stringify(fakeShare),
       headers: new Headers({
