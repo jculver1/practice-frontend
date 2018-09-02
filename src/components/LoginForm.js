@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import './LoginForm.css';
 
 export default class AddShareForm extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      isLoggedIn: localStorage.jwt || false,
+    }
   }
 
   postData = (url = ``, data = {}) => {
@@ -25,24 +29,34 @@ export default class AddShareForm extends Component {
   }
 
   onLogin = (e) => {
-    debugger;
     e.preventDefault();
     this.postData(`http://localhost:3001/auth/login`, {username: this.refs.username.value, password: this.refs.password.value})
-    .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+    .then(data => { 
+      console.log(JSON.stringify(data))
+      localStorage.jwt = JSON.stringify(data.jwt)      
+      this.setState(
+        {isLoggedIn: true}
+      )
+    }) // JSON-string from `response.json()` call
     .catch(error => console.error(error));
   }
 
   onCreate = (e) => {
-    debugger;
     e.preventDefault();
     this.postData(`http://localhost:3001/auth/create`, {username: this.refs.username.value, password: this.refs.password.value})
-    .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+    .then(data => {
+      console.log(JSON.stringify(data))
+      localStorage.jwt = JSON.stringify(data.jwt)
+      this.setState(
+        {isLoggedIn: true}
+      )      
+    }) // JSON-string from `response.json()` call
     .catch(error => console.error(error));
   }
 
   render() {
     return (
-      <form className="well">
+      <form className={this.state.isLoggedIn ? "hidden" : "displayed"}>
         <fieldset className="form-group">
           <label htmlFor="username">Username</label>
           <input type="email" ref="username" id="username" className="form-control" />
