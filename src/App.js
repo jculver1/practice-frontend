@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ShareList from './components/ShareList'
 import AddShareForm from './components/AddShareForm'
+import LoginForm from './components/LoginForm'
 import logo from './logo.svg';
 import './App.css';
 
@@ -51,6 +52,7 @@ export default class App extends Component {
       <div className="App">
         <ShareList shares={this.state.shares}></ShareList>
         <AddShareForm addShare={this.addShare}></AddShareForm>
+        <LoginForm></LoginForm>
       </div>
     );
   }
