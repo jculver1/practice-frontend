@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../App.css';
+
 
 export default class AddShareForm extends Component {
 
@@ -14,7 +16,7 @@ export default class AddShareForm extends Component {
 
   render() {
     return (
-      <form className="well" onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className={this.props.isLoggedIn ? "well displayed" : "well hidden"}>
         <fieldset className="form-group">
           <label htmlFor="title">Title</label>
           <input type="text" ref="title" id="title" className="form-control" />

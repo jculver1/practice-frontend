@@ -16,7 +16,8 @@ export default class App extends Component {
         {text: "a"},
         {text: "b"},
         {text: "c"}
-      ]
+      ],
+      isLoggedIn: localStorage.jwt ? true : false,      
     }
   }
 
@@ -47,12 +48,18 @@ export default class App extends Component {
     })
   }
 
+  setLogin = () => {
+    this.setState({
+      isLoggedIn: true
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <ShareList shares={this.state.shares}></ShareList>
-        <AddShareForm addShare={this.addShare}></AddShareForm>
-        <LoginForm></LoginForm>
+        <ShareList shares={this.state.shares} isLoggedIn={this.state.isLoggedIn}></ShareList>
+        <AddShareForm addShare={this.addShare} isLoggedIn={this.state.isLoggedIn}></AddShareForm>
+        <LoginForm setLogin={this.setLogin} isLoggedIn={this.state.isLoggedIn}></LoginForm>
       </div>
     );
   }

@@ -11,7 +11,7 @@ export default class ShareList extends Component {
 
   render() {
     return (
-      <div className="card-list">
+      <div className={this.props.isLoggedIn ? "card-list displayed" : "card-list hidden"}>
         <ul>
           {this.renderCards()}
         </ul>

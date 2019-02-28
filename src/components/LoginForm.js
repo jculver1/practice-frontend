@@ -1,62 +1,44 @@
 import React, { Component } from 'react';
-import './LoginForm.css';
+import '../App.css';
 
-export default class AddShareForm extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoggedIn: localStorage.jwt || false,
-    }
-  }
+export default class LoginForm extends Component {
 
   postData = (url = ``, data = {}) => {
-    // Default options are marked with *
     return fetch(url, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, cors, *same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, same-origin, *omit
+        method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-            // "Content-Type": "application/x-www-form-urlencoded",
         },
-        redirect: "follow", // manual, *follow, error
-        referrer: "no-referrer", // no-referrer, *client
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
+        body: JSON.stringify(data),
     })
-    .then(response => response.json()); // parses response to JSON
+    .then(response => response.json())
   }
 
   onLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     this.postData(`http://localhost:3001/auth/login`, {username: this.refs.username.value, password: this.refs.password.value})
     .then(data => { 
       console.log(JSON.stringify(data))
       localStorage.jwt = JSON.stringify(data.jwt)      
-      this.setState(
-        {isLoggedIn: true}
-      )
-    }) // JSON-string from `response.json()` call
-    .catch(error => console.error(error));
+      this.props.setLogin()
+    })
+    .catch(error => console.error(error))
   }
 
   onCreate = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     this.postData(`http://localhost:3001/auth/create`, {username: this.refs.username.value, password: this.refs.password.value})
     .then(data => {
       console.log(JSON.stringify(data))
       localStorage.jwt = JSON.stringify(data.jwt)
-      this.setState(
-        {isLoggedIn: true}
-      )      
-    }) // JSON-string from `response.json()` call
-    .catch(error => console.error(error));
+      this.props.setLogin()
+    })
+    .catch(error => console.error(error))
   }
 
   render() {
     return (
-      <form className={this.state.isLoggedIn ? "hidden" : "displayed"}>
+      <form className={this.props.isLoggedIn ? "hidden" : "displayed"}>
         <fieldset className="form-group">
           <label htmlFor="username">Username</label>
           <input type="email" ref="username" id="username" className="form-control" />
@@ -77,6 +59,6 @@ export default class AddShareForm extends Component {
 
 }
 
-AddShareForm.defaultProps = {
+LoginForm.defaultProps = {
   onSubmit() {}
 }
