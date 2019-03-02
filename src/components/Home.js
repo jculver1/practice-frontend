@@ -9,7 +9,7 @@ const Home = (props) => {
                   <h1>"Welcome!"</h1>
                   <button className="btn btn-success" onClick={(e) => props.fetchHiddenData(e)}>Fetch Hidden Data</button>
                   <button className="btn btn-success" onClick={(e) => props.setLogin(false)}>Logout</button>
-                  <h2>{props.hiddenData.message}</h2>
+                  <h2>{props.hiddenData}</h2>
               </div>
               : ""
           }

@@ -25,7 +25,7 @@ export default class App extends Component {
     let hiddenData = this.state.hiddenData
     if (loggingOut) {
       localStorage.removeItem('jwt')
-      hiddenData = []
+      hiddenData = {}
     }
     this.setState({
       isLoggedIn: value,
@@ -45,7 +45,7 @@ export default class App extends Component {
     .then(response => response.json())
     .then(data => {
       this.setState({
-        hiddenData: data
+        hiddenData: data.message.user.email
       })
     })
     .catch(error => {
