@@ -3,31 +3,30 @@ import '../App.css';
 
 export default class LoginForm extends Component {
 
-  postData = (e, route) => {
-    e.preventDefault()
-    let url = `http://localhost:3001/auth/${route}`
-    fetch(url, {
+  postData = (route) => {
+    fetch(`http://localhost:3001/auth/${route}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
         },
         body: JSON.stringify({
-          username: this.refs.username.value, 
+          username: this.refs.username.value,
           password: this.refs.password.value
         }),
     })
     .then(response => response.json())
     .then(data => {
       if (data.jwt) {
-        localStorage.jwt = JSON.stringify(data.jwt)      
-        this.props.setLogin(e, true)
+        localStorage.setItem('jwt', data.jwt)      
+        this.props.setLogin(true)
       } else {
-        throw new Error('jtw cannot be undefined'); 
+        this.props.setLogin(false)
       }
     })
     .catch(error => {
       console.error(error)
-      this.props.setLogin(e, false)
+      this.props.setLogin(false)
+      this.props.displayError(true)
     })
   }
 
@@ -35,20 +34,20 @@ export default class LoginForm extends Component {
     return (
       <div>
         <h1>{!this.props.isLoggedIn && "Please create an account or login."}</h1> 
-        <form className={this.props.isLoggedIn ? "hidden" : "displayed"}>
+        <form className={this.props.isLoggedIn ? "hidden" : "displayed"} onSubmit={(e) => e.preventDefault()}>
           <fieldset className="form-group">
             <label htmlFor="username">Username</label>
-            <input type="email" ref="username" id="username" className="form-control" />
+            <input type="email" ref="username" id="username" className="form-control" required/>
           </fieldset>
           <fieldset className="form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" ref="password" id="password" className="form-control" />
+            <input type="password" ref="password" id="password" className="form-control" required/>
           </fieldset>
           <fieldset className="form-group">
-            <button className="btn btn-success" onClick={(e) => this.postData(e, "login")}>Login</button>
-            <button className="btn btn-success" onClick={(e) => this.postData(e, "create")}>Create User</button>
+            <button className="btn btn-success" onClick={(e) => this.postData("login")}>Login</button>
+            <button className="btn btn-success" onClick={(e) => this.postData("create")}>Create User</button>
           </fieldset>
-          <h2>{this.props.displayError && "Bad login. Please try again"}</h2>
+          <h2>{this.props.isErrorDisplayed && "Please try again"}</h2>
         </form>
       </div>
     )

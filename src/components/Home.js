@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import '../App.css';
 
-export default class Home extends Component {
-
-  render() {
-    return (
-        <div>
-            {this.props.isLoggedIn ?
-                <div>  
-                    <h1>"Welcome!"</h1>
-                    <button className="btn btn-success" onClick={(e) => this.props.setLogin(e, false)}>Logout</button>
-                </div>
-                : ""
-            }
-        </div>
-    )
-  }
-
+const Home = (props) => {
+  return (
+      <div>
+          {props.isLoggedIn ?
+              <div>  
+                  <h1>"Welcome!"</h1>
+                  <button className="btn btn-success" onClick={(e) => props.fetchHiddenData(e)}>Fetch Hidden Data</button>
+                  <button className="btn btn-success" onClick={(e) => props.setLogin(false)}>Logout</button>
+                  <h2>{props.hiddenData.message}</h2>
+              </div>
+              : ""
+          }
+      </div>
+  )
 }
 
-
-
-
+export default Home
