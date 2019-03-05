@@ -10,7 +10,7 @@ export default class App extends Component {
     this.state = {
       isLoggedIn: localStorage.jwt ? true : false,
       isErrorDisplayed: false,
-      hiddenData: []
+      hiddenData: ""
     }
   }
 
@@ -25,7 +25,7 @@ export default class App extends Component {
     let hiddenData = this.state.hiddenData
     if (loggingOut) {
       localStorage.removeItem('jwt')
-      hiddenData = {}
+      hiddenData = ""
     }
     this.setState({
       isLoggedIn: value,
