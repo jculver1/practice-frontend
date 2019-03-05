@@ -22,6 +22,7 @@ export default class LoginForm extends Component {
       } else {
         this.props.setLogin(false)
       }
+      this.props.displayError(false)
     })
     .catch(error => {
       console.error(error)
